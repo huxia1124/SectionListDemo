@@ -25,7 +25,7 @@ public:
 
 		{
 			CMainWindow wnd;
-			wnd.Create(NULL, NULL, _T("UniversalClient"));
+			wnd.Create(NULL, NULL, _T("STXSectionList Demo Application"));
 			wnd.ShowWindow(SW_SHOW);
 
 			RunMessageLoop();
