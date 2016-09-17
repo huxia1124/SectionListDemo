@@ -1,0 +1,11 @@
+import "docobj.idl";
+
+
+[ version(1.0), uuid(1b718698-c946-3191-9abb-96755740fac0) ]
+library STXSectionListDemoApplication
+{
+	importlib("stdole2.tlb");
+	importlib("olepro32.dll");
+
+}
+
