@@ -16,6 +16,7 @@ protected:
 		MESSAGE_HANDLER(WM_CLOSE, OnClose)
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		MESSAGE_HANDLER(WM_CREATE, OnCreate)
+		MESSAGE_HANDLER(WM_TIMER, OnTimer)
 	END_MSG_MAP()
 
 
@@ -23,6 +24,7 @@ protected:
 	CSTXAnchor *_anchor;
 	CString _currentMode;	//GDI+ or Direct2D
 	CSTXSectionList _list;
+	int _totalRandomItems;
 
 private:
 	void InitializeSectionList();
@@ -45,6 +47,7 @@ protected:
 		return 0;
 	}
 	LRESULT OnCreate(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnTimer(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 
 private:
 

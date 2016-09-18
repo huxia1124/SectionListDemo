@@ -140,6 +140,26 @@ LRESULT CMainWindow::OnCreate(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &bHan
 	_anchor->AddItem(1001, STXANCHOR_ALL);
 
 	InitializeSectionList();
+
+	_totalRandomItems = 0;
+	SetTimer(1, 1000, NULL);
+	return 0;
+}
+
+LRESULT CMainWindow::OnTimer(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &bHandled)
+{
+	if (_totalRandomItems > 20) {
+		KillTimer(1);
+		_totalRandomItems = 0;
+	}
+	int nSection = rand() % _list.GetSectionCount();
+	int nItem = _list.AddItemToSection(nSection, _T("New Item"));
+
+	_list.SetItemTipCount(nSection, nItem, rand() % 2);
+	_list.SetItemTipLeftBottom(nSection, nItem, _T("$9.99"));
+
+	_list.SetItemTipLeftTop(nSection, nItem, _T("N"));
+	_totalRandomItems++;
 	return 0;
 }
 

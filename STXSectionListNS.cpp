@@ -315,6 +315,11 @@ void CSTXSectionList::RemoveItemFromSection(int nSectionIndex, int nItemIndex)
 	}
 }
 
+int CSTXSectionList::GetSectionCount()
+{
+	return (int)GetChildrenCount();
+}
+
 POINT CSTXSectionList::CalculateItemLocation(int nSectionIndex, int nItemIndex)
 {
 	//if (nSectionIndex < 0 || nSectionIndex >= (int)_childNodes.size())

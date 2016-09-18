@@ -98,5 +98,6 @@ public:
 	void SetItemTipLeftBottom(int nSectionIndex, int nItemIndex, LPCTSTR lpszTipText);
 	void SetItemTipLeftTop(int nSectionIndex, int nItemIndex, LPCTSTR lpszTipText);
 	void RemoveItemFromSection(int nSectionIndex, int nItemIndex);
+	int GetSectionCount();
 };
 
