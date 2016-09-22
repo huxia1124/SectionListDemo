@@ -306,7 +306,15 @@ void CSTXGraphicsBrush::SetOpacityFloat(float alpha)
 
 }
 
+byte CSTXGraphicsBrush::GetOpacity()
+{
+	return static_cast<byte>(GetOpacityFloat() * 255);
+}
 
+float CSTXGraphicsBrush::GetOpacityFloat()
+{
+	return 1.0f;
+}
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -346,6 +354,8 @@ void CSTXGdiPlusGraphicsSolidBrush::SetOpacityFloat(float alpha)
 {
 	if (_brush)
 		delete _brush;
+
+	_a = static_cast<byte>(alpha * 255);
 	_brush = new Gdiplus::SolidBrush(Gdiplus::Color(static_cast<byte>(alpha * 255), _r, _g, _b));
 }
 
@@ -558,6 +568,11 @@ void CSTXD2DGraphicsBrush::SetOpacityFloat(float alpha)
 	_brush->SetOpacity(alpha);
 }
 
+
+float CSTXD2DGraphicsBrush::GetOpacityFloat()
+{
+	return _brush->GetOpacity();
+}
 
 #endif
 //////////////////////////////////////////////////////////////////////////

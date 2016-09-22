@@ -83,7 +83,7 @@ int CSTXSectionList::AddItemToSection(int nSectionIndex, LPCTSTR lpszItemText)
 
 	CSTXSectionListContentNode *pContentNode = new CSTXSectionListContentNode();
 	pContentNode->_caption = lpszItemText;
-	pContentNode->_type = rand() % 3;
+	pContentNode->_type = rand() % 4;
 
 	int nChildrenCount = pSectionNode->GetChildrenCount();
 	std::map<std::wstring, DOUBLE> mapInit;
@@ -436,6 +436,28 @@ void CSTXSectionList::OnSize(UINT nType, int cx, int cy)
 		ResetScrollBars();
 }
 
+void CSTXSectionList::OnMouseWheel(UINT nFlags, short zDelta, int x, int y)
+{
+	if (!((GetWindowLong(_hwndControl, GWL_STYLE) & WS_VSCROLL) == WS_VSCROLL))
+	{
+		return;
+	}
+
+	int minpos;
+	int maxpos;
+	GetScrollRange(_hwndControl, SB_VERT, &minpos, &maxpos);
+	maxpos = GetScrollLimit(SB_VERT);
+
+	// Get the current position of scroll box.
+	int curpos = GetScrollPos(_hwndControl, SB_VERT);
+	int newpos = curpos - zDelta;
+	newpos = min(newpos, maxpos);
+	newpos = max(newpos, minpos);
+
+	SetScrollPos(_hwndControl, SB_VERT, newpos, TRUE);
+	InvalidateRect(_hwndControl, NULL, TRUE);
+}
+
 void CSTXSectionList::CalculateItemsPerLine()
 {
 	if (_hwndControl == NULL)
@@ -559,14 +581,16 @@ void CSTXSectionListContentNode::DrawNode(CSTXGraphics *pGraphics)
 	pMatrixNew->Multiply(pMatrixOld, Gdiplus::MatrixOrderAppend);
 
 	CSTXGraphicsBrush *pBrush1 = pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 102, 168, 168, static_cast<byte>(255 * GetAncestorOpacity() * opacity), 90);
-	CSTXGraphicsBrush *pBrush2 = pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 86, 146, 146, static_cast<byte>(255 * GetAncestorOpacity() * opacity), 90);
+	CSTXGraphicsBrush *pBrush2 = pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 86, 146, 255, static_cast<byte>(255 * GetAncestorOpacity() * opacity), 90);
 	CSTXGraphicsBrush *pBrush3 = pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 168, 146, 146, static_cast<byte>(255 * GetAncestorOpacity() * opacity), 90);
+	CSTXGraphicsBrush *pBrush4 = pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 192, 128, 32, static_cast<byte>(96 * GetAncestorOpacity() * opacity), 90);
 
 	//TRY_GET_CACHED_OBJECT(pBrush1, ContentBrush1, CSTXGraphicsBrush, pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 102, 168, 168, 255, 90));
 	//TRY_GET_CACHED_OBJECT(pBrush2, ContentBrush2, CSTXGraphicsBrush, pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 86, 146, 146, 255, 90));
 	//TRY_GET_CACHED_OBJECT(pBrush3, ContentBrush3, CSTXGraphicsBrush, pGraphics->CreateButtonGradientBrush(0, 0, fw, fh, 168, 146, 146, 255, 90));
-	CSTXGraphicsBrush *pBrush[3] = { pBrush1, pBrush2, pBrush3 };
+	CSTXGraphicsBrush *pBrush[4] = { pBrush1, pBrush2, pBrush3, pBrush4 };
 	_bkBrush = pBrush[_type];
+
 	_bkBrush->SetOpacity(static_cast<byte>(255 * GetAncestorOpacity() * opacity));
 
 	CSTXGraphicsBrush *pBrushFont = pGraphics->CreateSolidBrush(255, 255, 255, static_cast<byte>(255 * GetAncestorOpacity() * opacity));
@@ -589,6 +613,7 @@ void CSTXSectionListContentNode::DrawNode(CSTXGraphics *pGraphics)
 	pBrush1->Release();
 	pBrush2->Release();
 	pBrush3->Release();
+	pBrush4->Release();
 
 	delete pMatrixOld;
 	delete pMatrixNew;

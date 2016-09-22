@@ -92,8 +92,10 @@ public:
 	virtual ~CSTXGraphicsBrush();
 
 public:
-	virtual void SetOpacity(byte alpha);		//0 to 255
+	virtual void SetOpacity(byte alpha);			//0 to 255
 	virtual void SetOpacityFloat(float alpha);		//0 to 1
+	virtual byte GetOpacity();						//0 to 255
+	virtual float GetOpacityFloat();				//0 to 1
 };
 
 class CSTXGdiPlusGraphicsBrush : public CSTXGraphicsBrush
@@ -188,6 +190,7 @@ protected:
 
 public:
 	virtual void SetOpacityFloat(float alpha);
+	virtual float GetOpacityFloat();				//0 to 1
 };
 
 class CSTXD2DGraphicsSolidBrush : public CSTXD2DGraphicsBrush

@@ -1242,6 +1242,9 @@ LRESULT CALLBACK CSTXAnimationControlWindow::STXAnimatedControlWindowProc(HWND h
 	case WM_LBUTTONDBLCLK:
 		pThis->OnLButtonDblClk(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), wParam);
 		break;
+	case WM_MOUSEWHEEL:
+		pThis->OnMouseWheel(GET_KEYSTATE_WPARAM(wParam), GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(lParam), HIWORD(lParam));
+		break;
 	case WM_MOUSELEAVE:
 		pThis->OnMouseLeave();
 		break;
@@ -1627,6 +1630,11 @@ void CSTXAnimationControlWindow::OnLButtonDblClk(int x, int y, UINT nFlags)
 	int iHScrollPos = GetScrollPos(_hwndControl, SB_HORZ);
 	int iVScrollPos = GetScrollPos(_hwndControl, SB_VERT);
 	__super::OnLButtonDblClk(x + iHScrollPos, y + iVScrollPos, nFlags);
+}
+
+void CSTXAnimationControlWindow::OnMouseWheel(UINT nFlags, short zDelta, int x, int y)
+{
+
 }
 
 BOOL CSTXAnimationControlWindow::ModifyStyle(int nStyleOffset, DWORD dwRemove, DWORD dwAdd, UINT nFlags)

@@ -103,6 +103,7 @@ protected:
 
 protected:
 	virtual void OnSize(UINT nType, int cx, int cy);
+	virtual void OnMouseWheel(UINT nFlags, short zDelta, int x, int y);
 
 
 public:
